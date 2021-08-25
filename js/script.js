@@ -1,8 +1,32 @@
+let uncheckedLi = []
+let checkedLi = []
+
 let userListDOM = document.querySelector("#list")
 
 /* Önceden girilmiş liste öğelerini local storage'dan çekmek için gereken kodlamalar */
 let taskChecked = localStorage.getItem("task-checked");
 let taskUnChecked = localStorage.getItem("task-unchecked");
+
+let taskCheckedArr = taskChecked.split(",")
+let taskUnCheckedArr = taskUnChecked.split(",")
+
+taskCheckedArr.forEach(element => {
+    let liDOM = document.createElement("li")
+    liDOM.innerHTML = `${element}`
+    liDOM.setAttribute("onclick", "checked(this)")
+    liDOM.classList.add("checked")
+    uncheckedLi.push(liDOM.innerHTML)
+    userListDOM.append(liDOM)
+});
+
+taskUnCheckedArr.forEach(element => {
+    let liDOM = document.createElement("li")
+    liDOM.innerHTML = `${element}`
+    liDOM.setAttribute("onclick", "checked(this)")
+    liDOM.classList.add("unchecked")
+    uncheckedLi.push(liDOM.innerHTML)
+    userListDOM.append(liDOM)
+});
 
 /* if (oldLiDOM) {
     let liDOM = document.createElement("li")
@@ -35,9 +59,6 @@ function createLiDOM(TASK){
 }
 
 /* Var olan liste öğeleri ile etkilişime geçmek için gereken kodlamalar */
-let uncheckedLi = []
-let checkedLi = []
-
 function checked(item) {
     if (item.classList.value== "unchecked"){
         item.classList.value= "checked"
