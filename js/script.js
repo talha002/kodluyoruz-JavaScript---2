@@ -47,7 +47,7 @@ function formSubmit() {
 
 function createLiDOM(TASK){
     let liDOM = document.createElement("li")
-    liDOM.innerHTML = `${TASK} <span onclick="remove(this)" class="close">x</span>`
+    liDOM.innerHTML = `${TASK} <div onclick="remove(this)" class="close">x</div>`
     liDOM.setAttribute("onclick", "checked(this)")
     liDOM.classList.add("unchecked")
     uncheckedLi.push(liDOM.innerHTML)
@@ -78,6 +78,7 @@ function checked(item) {
 
 /* Öğeyi silme */
 function remove(element) {
+    event.stopPropagation()
     element.parentNode.parentNode.removeChild(element.parentNode)
     if (uncheckedLi.includes(element.parentNode.innerHTML)){
         let elementIndex = uncheckedLi.indexOf(element.parentNode.innerHTML)
@@ -87,9 +88,21 @@ function remove(element) {
         let elementIndex = checkedLi.indexOf(element.parentNode.innerHTML)
         checkedLi.splice(elementIndex, 1)
     };
+    removeBug(element)
 };
 
-/* Liste öğelerinin local storage'a kaydı */
+function removeBug(element) {
+    if (uncheckedLi.includes(element.parentNode.innerHTML)){
+        let elementIndex = checkedLi.length-1
+        checkedLi.splice(elementIndex, 1)
+    }
+    else if (checkedLi.includes(element.parentNode.innerHTML)){
+        let elementIndex = uncheckedLi.length-1
+        uncheckedLi.splice(elementIndex, 1)
+    };
+}
+
+/* Liste öğelerinin local storage'a kaydı ve kaydı silme */
 function save() {
     let checkedTasks = localStorage.setItem("task-checked", checkedLi)
     let uncheckedTasks = localStorage.setItem("task-unchecked", uncheckedLi)
@@ -101,7 +114,6 @@ function remSave() {
 }
 
 /* Boostrap Toast ayarları */
-
 const option = {
     animation : true,
     delay: 4000 
