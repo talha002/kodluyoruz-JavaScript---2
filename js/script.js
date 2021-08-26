@@ -7,32 +7,28 @@ let userListDOM = document.querySelector("#list")
 let taskChecked = localStorage.getItem("task-checked");
 let taskUnChecked = localStorage.getItem("task-unchecked");
 
-let taskCheckedArr = taskChecked.split(",")
-let taskUnCheckedArr = taskUnChecked.split(",")
-
-taskCheckedArr.forEach(element => {
-    let liDOM = document.createElement("li")
-    liDOM.innerHTML = `${element}`
-    liDOM.setAttribute("onclick", "checked(this)")
-    liDOM.classList.add("checked")
-    uncheckedLi.push(liDOM.innerHTML)
-    userListDOM.append(liDOM)
-});
-
-taskUnCheckedArr.forEach(element => {
-    let liDOM = document.createElement("li")
-    liDOM.innerHTML = `${element}`
-    liDOM.setAttribute("onclick", "checked(this)")
-    liDOM.classList.add("unchecked")
-    uncheckedLi.push(liDOM.innerHTML)
-    userListDOM.append(liDOM)
-});
-
-/* if (oldLiDOM) {
-    let liDOM = document.createElement("li")
-    liDOM.innerHTML = `${oldLiDOM}`
-    userListDOM.append(liDOM)
-} */
+if(taskChecked){
+    let taskCheckedDOM = taskChecked.split(",")
+    taskCheckedDOM.forEach(element => {
+        let liDOM = document.createElement("li")
+        liDOM.innerHTML = `${element}`
+        liDOM.setAttribute("onclick", "checked(this)")
+        liDOM.classList.add("checked")
+        checkedLi.push(liDOM.innerHTML)
+        userListDOM.append(liDOM)
+    });
+}
+if (taskUnChecked){
+    let taskUnCheckedDOM = taskUnChecked.split(",")
+    taskUnCheckedDOM.forEach(element => {
+        let liDOM = document.createElement("li")
+        liDOM.innerHTML = `${element}`
+        liDOM.setAttribute("onclick", "checked(this)")
+        liDOM.classList.add("unchecked")
+        uncheckedLi.push(liDOM.innerHTML)
+        userListDOM.append(liDOM)
+    });
+}
 
 /* Yeni liste öğesi eklemek için gerekli olan kodlamalar*/
 let formDom = document.querySelector("#userForm")
@@ -51,7 +47,7 @@ function formSubmit() {
 
 function createLiDOM(TASK){
     let liDOM = document.createElement("li")
-    liDOM.innerHTML = `${TASK}`
+    liDOM.innerHTML = `${TASK} <span onclick="remove(this)" class="close">x</span>`
     liDOM.setAttribute("onclick", "checked(this)")
     liDOM.classList.add("unchecked")
     uncheckedLi.push(liDOM.innerHTML)
@@ -59,9 +55,11 @@ function createLiDOM(TASK){
 }
 
 /* Var olan liste öğeleri ile etkilişime geçmek için gereken kodlamalar */
+
+/* Üzerini çizme */
 function checked(item) {
-    if (item.classList.value== "unchecked"){
-        item.classList.value= "checked"
+    if (item.classList.value == "unchecked"){
+        item.classList.value = "checked"
         checkedLi.push(item.innerHTML)
         if (uncheckedLi.includes(item.innerHTML)){
             let itemIndex = uncheckedLi.indexOf(item.innerHTML)
@@ -76,6 +74,27 @@ function checked(item) {
             checkedLi.splice(itemIndex, 1)
         }
     }
+}
+
+/* Öğeyi silme */
+function remove(element) {
+    element.parentNode.parentNode.removeChild(element.parentNode)
+    if (uncheckedLi.includes(element.parentNode.innerHTML)){
+        let elementIndex = uncheckedLi.indexOf(element.parentNode.innerHTML)
+        uncheckedLi.splice(elementIndex, 1)
+    }
+    else if (checkedLi.includes(element.parentNode.innerHTML)){
+        let elementIndex = checkedLi.indexOf(element.parentNode.innerHTML)
+        checkedLi.splice(elementIndex, 1)
+    };
+};
+
+function save() {
     let checkedTasks = localStorage.setItem("task-checked", checkedLi)
     let uncheckedTasks = localStorage.setItem("task-unchecked", uncheckedLi)
+}
+
+function remSave() {
+    localStorage.removeItem("task-checked")
+    localStorage.removeItem("task-unchecked")
 }
