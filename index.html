@@ -17,8 +17,8 @@
     <div class="mr-1" style="position: relative">
       <div style="position: absolute; top: 0; right: 0">
         <div
-          id="liveToast"
-          class="toast success hide"
+          id="Toast-success"
+          class="toast success"
           role="alert"
           aria-live="assertive"
           aria-atomic="true"
@@ -41,7 +41,7 @@
     <div class="mr-1" style="position: relative">
       <div style="position: absolute; top: 0; right: 0">
         <div
-          id="liveToast"
+          id="Toast-fail"
           class="toast error hide"
           role="alert"
           aria-live="assertive"
@@ -72,7 +72,7 @@
         <h2>Yapılacaklar Listesi</h2>
         <form id="userForm">
             <input type="text" id="task" placeholder="Bugün ne yapacaksın?" />
-            <button type="submit" id="liveToastBtn" class="button">Ekle</button>
+            <button type="submit" id="liveToastBtn" class="button" onclick="toasty()">Ekle</button>
         </form>
       </div>
 

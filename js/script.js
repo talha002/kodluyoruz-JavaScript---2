@@ -89,6 +89,7 @@ function remove(element) {
     };
 };
 
+/* Liste öğelerinin local storage'a kaydı */
 function save() {
     let checkedTasks = localStorage.setItem("task-checked", checkedLi)
     let uncheckedTasks = localStorage.setItem("task-unchecked", uncheckedLi)
@@ -97,4 +98,26 @@ function save() {
 function remSave() {
     localStorage.removeItem("task-checked")
     localStorage.removeItem("task-unchecked")
+}
+
+/* Boostrap Toast ayarları */
+
+const option = {
+    animation : true,
+    delay: 4000 
+}
+
+function toasty() {
+    let inputDOM = document.querySelector("#task")
+    let task = inputDOM.value
+    if (task){
+        const toastDOM = document.getElementById("Toast-success")
+        const toastElement = new bootstrap.Toast(toastDOM, option )
+        toastElement.show();
+    }
+    else {
+        const toastDOM = document.getElementById("Toast-fail")
+        const toastElement = new bootstrap.Toast(toastDOM, option )
+        toastElement.show();
+    }
 }
